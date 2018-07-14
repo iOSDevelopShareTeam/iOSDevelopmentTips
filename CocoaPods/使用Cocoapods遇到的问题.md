@@ -53,13 +53,13 @@ sudo gem install cocoapods --version 目标版本
 
 2. 当前版本比目标版本高的时候
 分两步：
+
 卸载当前版本：
 
 ```
 sudo gem uninstall cocoapods -v 当前版本
 sudo gem uninstall  cocoapods-core -v 当前版本
 ```
-
 安装指定版本：
 
 ```
