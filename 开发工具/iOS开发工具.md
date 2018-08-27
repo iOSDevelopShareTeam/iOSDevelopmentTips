@@ -1,5 +1,3 @@
-# iOSDevelopmentTips
-iOSDevelopmentTips
 ## 使用charles抓包 （https）
  抓http的包这个不用多讲，抓https的包注意一下几点:
 * 安装charles证书
