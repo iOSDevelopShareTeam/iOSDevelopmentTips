@@ -1,2 +1,0 @@
-# iOSDevelopmentTips
-iOSDevelopmentTips

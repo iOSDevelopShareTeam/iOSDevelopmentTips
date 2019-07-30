@@ -1,0 +1,14 @@
+## KVO  KVC NSNotification是什么
+##  KVO
+是一种间接访问对象属性的机制，而不是通过设置器和访问器或者点语法来访问对象属性
+## KVC
+当对象的某一个属性发生变化的时候，我们得到一个相应的通知NSNotification
+注册观察者设置观察者对象
+
+这里的通知不是由被观察者发出，而是由NSNotificationCenter来统一发出，而不同通知通过唯一的通知标识名notificationName来区分，标识名由发送通知的类来起。首先被观察者自己在必要的方法A里，通过方法postNotificationName:object:来发出通知
+notificationName这样发送通知者这边的工作就完成了，每次A被调用，就会发送一次通知notificationName。
+
+然后谁要监听A的变化，就通过[NSNotificationCenter defaultCenter]的方法addObserver:selector:name:object:为观察者注册监听name为notificationName的通知然后每次发出name为notificationName的通知时，注册监听后的观察者就会调用其自己定义的方法notificationSelector来进行响应。
+
+NSNotification的特点呢，就是需要被观察者先主动发出通知，然后观察者注册监听后再来进行响应，比KVO多了发送通知的一步，但是其优点是监听不局限于属性的变化，还可以对多种多样的状态变化进行监听，监听范围广，使用也更灵活。
+
