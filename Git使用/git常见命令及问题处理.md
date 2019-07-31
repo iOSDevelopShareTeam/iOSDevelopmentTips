@@ -40,5 +40,82 @@ cb926e7 HEAD@{3}: commit (initial): submit
 * 穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
 * 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
 
+## git 用法
+### 问题1：
+
+1. Git add 添加 多余文件 
+这样的错误是由于， 有的时候 可能
+git add . （空格+ 点） 表示当前目录所有文件，不小心就会提交其他文件
+git add 如果添加了错误的文件的话
+撤销操作
+git status 先看一下add 中的文件 
+git reset HEAD 如果后面什么都不跟的话 就是上一次add 里面的全部撤销了 
+git reset HEAD XXX/XXX/XXX.m 就是对某个文件进行撤销了
+2. git commit 错误
+如果不小心 弄错了 git add后 ， 又 git commit 了。 
+先使用 
+git log 查看节点 
+commit xxxxxxxxxxxxxxxxxxxxxxxxxx 
+Merge: 
+Author: 
+Date:
+然后 
+git reset commit_id  就完成了
+如果还没有 push 也就是 repo upload 的时候
+git reset commit_id （回退到上一个 提交的节点 代码还是原来你修改的） 
+git reset –hard commit_id （回退到上一个commit节点， 代码也发生了改变，变成上一次的）
+
+3. 如果要是 提交了以后，可以使用 git revert
+还原已经提交的修改 此次操作之前和之后的commit和history都会保留，并且把这次撤销作为一次最新的提交 
+git revert HEAD 撤销前一次 commit 
+git revert HEAD^ 撤销前前一次 commit 
+git revert commit-id (撤销指定的版本，撤销也会作为一次提交进行保存） 
+git revert是提交一个新的版本，将需要revert的版本的内容再反向修改回去，版本会递增，不影响之前提交的内容。
+Git reset —hard  +提交号码
+然后push
+git push -f origin master
+git checkout . #本地所有修改的。没有的提交的，都返回到原来的状态
+git stash #把所有没有提交的修改暂存到stash里面。可用git stash pop回复。
+git reset --hard HASH #返回到某个节点，不保留修改。
+git reset --soft HASH #返回到某个节点。保留修改 
+git clean -df #返回到某个节点
+git clean 参数 -n 显示 将要 删除的 文件 和 目录 -f 删除 文件 -df 删除 文件 和 目录
+git fetch  -p 更新分支列表
+
+## 冲突解决
+
+在使用git的时候出现的问题 是： merge  出现冲突
+解决方案：找到冲突的位置
+```
+会有<<<<<<<header 
+xxxxxxxxxxx //这里是自己的
+＝＝＝＝＝＝＝＝
+>>>>>>xxxxxxx
+删掉 //这里是别人的
+<<<<<<<header 
+xxxxxxxxxxx 
+＝＝＝＝＝＝＝＝
+和
+>>>>>>xxxxxxx  这样就可以了。
+```
+## git stash  用法
+
+* git stash
+保存当前的工作进度。会分别对暂存区和工作区的状态进行保存
+* git stash save "message..."
+这条命令实际上是第一条 git stash 命令的完整版
+* git stash list
+显示进度列表。此命令显然暗示了git stash 可以多次保存工作进度，并用在恢复时候进行选择
+* git stash pop [--index] [<stash>]
+如果不使用任何参数，会恢复最新保存的工作进度，并将恢复的工作进度从存储的工作进度列表中清除。
+如果提供参数（来自 git stash list 显示的列表），则从该 <stash> 中恢复。恢复完毕也将从进度列表中删除 <stash>。
+选项--index 除了恢复工作区的文件外，还尝试恢复暂存区。
+* git stash apply [--index] [<stash>]
+除了不删除恢复的进度之外，其余和 git stash pop 命令一样
+* git stash clear
+删除所有存储的进度
+
+
+
 
 
